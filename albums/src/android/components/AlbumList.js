@@ -9,6 +9,12 @@ class AlbumList extends Component {
     };
   }
 
+  componentWillMount() {
+    fetch('http://rallycoding.herokuapp.com/api/music_albums')
+      .then(response => response.json())
+      .then(responseJson => console.log(responseJson));
+  }
+
   render() {
     return (
       <View>
