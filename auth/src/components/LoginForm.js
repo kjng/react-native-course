@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { /*Alert,*/ Text } from 'react-native'; // See lines 26 and 33 for Alert RN replacement
+import { /*Alert,*/ Text } from 'react-native'; // See line 48 for Alert RN replacement
 import firebase from 'firebase';
 import { Card, CardSection, Button, Input, Spinner } from './common';
 
@@ -20,19 +20,30 @@ class LoginForm extends Component {
     this.setState({ error: '', loading: true });
 
     firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
       .catch((signInError) => {
         if (signInError.code === 'auth/wrong-password') {
-          this.setState({ error: signInError.message, loading: false });
-          // Alert.alert('Login', signInError.message);
+          this.onLoginFailure(signInError);
           return;
         }
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
-          .catch((createUserError) => {
-            this.setState({ error: createUserError.message, loading: false });
-            // Alert.alert('Login', createUserError.message);
-          });
+          .then(this.onLoginSuccess.bind(this))
+          .catch(this.onLoginFailure.bind(this));
       });
+  }
+
+  onLoginSuccess() {
+    this.setState({
+      email: '',
+      password: '',
+      loading: false
+    });
+  }
+
+  onLoginFailure({ message }) {
+    this.setState({ error: message, loading: false });
+    // Alert.alert('Login', message);
   }
 
   renderButton() {
