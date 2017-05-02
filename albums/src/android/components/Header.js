@@ -22,7 +22,8 @@ const styles = {
     alignItems: 'center',
     height: height * 0.1,
     elevation: 5, // Shadow for android 5.0+
-    position: 'relative'
+    position: 'relative',
+    marginBottom: 5
   },
   headerText: {
     fontSize: 20,
