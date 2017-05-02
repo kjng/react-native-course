@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Dimensions, TextInput } from 'react-native';
 import { Card, CardSection, Button } from './common';
 
 class LoginForm extends Component {
   render() {
     return (
       <Card>
-        <CardSection />
-
+        <CardSection>
+          <TextInput style={{ height: 45, width: width * 0.94 }} />
+        </CardSection>
         <CardSection />
 
         <CardSection>
@@ -19,5 +20,7 @@ class LoginForm extends Component {
     );
   }
 }
+
+const { width } = Dimensions.get('window');
 
 export default LoginForm;
