@@ -1,33 +1,50 @@
 import React, { Component } from 'react';
-import { Alert, Text } from 'react-native';
+import { /*Alert,*/ Text } from 'react-native'; // See lines 26 and 33 for Alert RN replacement
 import firebase from 'firebase';
-import { Card, CardSection, Button, Input } from './common';
+import { Card, CardSection, Button, Input, Spinner } from './common';
 
 class LoginForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '', error: '' };
+    this.state = {
+      email: '',
+      password: '',
+      error: '',
+      loading: false
+    };
   }
 
   onButtonPress() {
     const { email, password } = this.state;
 
-    this.setState({ error: '' });
+    this.setState({ error: '', loading: true });
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .catch((signInError) => {
         if (signInError.code === 'auth/wrong-password') {
-          this.setState({ error: signInError.message });
-          Alert.alert('Login', signInError.message);
+          this.setState({ error: signInError.message, loading: false });
+          // Alert.alert('Login', signInError.message);
           return;
         }
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
           .catch((createUserError) => {
-            this.setState({ error: createUserError.message });
-            Alert.alert('Login', createUserError.message);
+            this.setState({ error: createUserError.message, loading: false });
+            // Alert.alert('Login', createUserError.message);
           });
       });
+  }
+
+  renderButton() {
+    if (this.state.loading) {
+      return <Spinner size={'small'} />;
+    }
+
+    return (
+      <Button onPress={this.onButtonPress.bind(this)}>
+        Log in
+      </Button>
+    );
   }
 
   render() {
@@ -59,9 +76,7 @@ class LoginForm extends Component {
         }
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this)}>
-            Log in
-          </Button>
+          {this.renderButton()}
         </CardSection>
       </Card>
     );
