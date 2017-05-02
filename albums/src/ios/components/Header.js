@@ -22,8 +22,9 @@ const styles = {
     paddingTop: 17,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.2,
-    position: 'relative'
+    shadowOpacity: 0.1,
+    position: 'relative',
+    marginBottom: 5
   },
   headerText: {
     fontSize: 20
