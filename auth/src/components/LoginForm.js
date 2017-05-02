@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { Dimensions, TextInput } from 'react-native';
-import { Card, CardSection, Button } from './common';
+import { Card, CardSection, Button, Input } from './common';
 
 class LoginForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { email: '' };
+  }
+
   render() {
     return (
       <Card>
         <CardSection>
-          <TextInput style={{ height: 45, width: width * 0.94 }} />
+          <Input
+            onChangeText={email => this.setState({ email })}
+            value={this.state.email}
+            label={'Email'}
+            placeholder={'me@gmail.com'}
+          />
         </CardSection>
         <CardSection />
 
@@ -20,7 +29,5 @@ class LoginForm extends Component {
     );
   }
 }
-
-const { width } = Dimensions.get('window');
 
 export default LoginForm;
