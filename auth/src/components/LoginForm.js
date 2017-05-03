@@ -63,6 +63,7 @@ class LoginForm extends Component {
       <Card>
         <CardSection>
           <Input
+            autoCapitalize={'none'}
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
             label={'Email'}
